@@ -3,7 +3,7 @@ FROM ruby:3.1.2
 
 # Install dependencies
 RUN apt-get update -qq && \
-    apt-get install -y nodejs default-mysql-client
+    apt-get install -y nodejs mariadb-client # https://qiita.com/aseanchild1400/items/d3580366054fee3d2703
 
 # Set working directory
 WORKDIR /app
