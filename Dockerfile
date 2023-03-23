@@ -4,7 +4,7 @@ ARG UID
 
 # Install dependencies
 RUN apt-get update -qq && \
-    apt-get install -y nodejs mariadb-client # https://qiita.com/aseanchild1400/items/d3580366054fee3d2703
+    apt-get install -y nodejs mariadb-client yarn # https://qiita.com/aseanchild1400/items/d3580366054fee3d2703
 
 
 WORKDIR /myapp
