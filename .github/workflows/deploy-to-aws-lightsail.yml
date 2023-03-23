@@ -27,16 +27,6 @@ jobs:
             RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
             RAILS_SECRET=${{ secrets.RAILS_SECRET }}
 
-      - name: copy file via ssh password
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          port: ${{ secrets.EC2_SSH_PORT }}
-          source: "docker-compose.yml"
-          target: "/"
-
       - name: SSH into EC2 instance
         uses: appleboy/ssh-action@master
         with:
@@ -52,7 +42,9 @@ jobs:
             echo "RAILS_ENV=production" >> .env
             echo "DATABASE_URL=mysql2://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@db/${{ secrets.MYSQL_DATABASE }}" >> .env
             ls -al
-            docker compose up --build -d
+            cd rails-deploy
+            git pull
+            sudo docker compose up --build -d
 #            sudo docker pull the2792/rails-test-app:latest
 #            sudo docker ps
 #            sudo docker images
