@@ -2,13 +2,19 @@
 FROM ruby:3.1.2-alpine
 
 # Install dependencies
-RUN apk update && \
-    apk add --no-cache \
+RUN apt-get update && \
+    apt-get add --no-cache \
         build-base \
         mariadb-dev \
         tzdata \
-        git \
-        nodejs
+        git
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -\
+  && apt-get update -qq && apt-get install -qq --no-install-recommends \
+    nodejs \
+  && apt-get upgrade -qq \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*\
+  && npm install -g yarn@1
 
 # Set the working directory
 WORKDIR /app
@@ -32,7 +38,7 @@ RUN echo "$RAILS_MASTER_KEY" >> config/master.key
 RUN export SECRET_KEY_BASE=$RAILS_SECRET
 
 # Precompile assets
-RUN RAILS_ENV=production bin/rails assets:precompile
+RUN RAILS_ENV=production rails assets:precompile
 
 EXPOSE 3050
 
