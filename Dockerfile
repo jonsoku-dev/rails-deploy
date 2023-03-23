@@ -25,7 +25,6 @@ ENV SECRET_KEY_BASE="echo 'export rails secret'"
 ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 RUN echo "$RAILS_MASTER_KEY" >> config/master.key
 RUN export SECRET_KEY_BASE=$RAILS_SECRET
-RUN RAILS_ENV=$RAILS_ENV bundle exec rails assets:precompile
 # Expose port 3000
 EXPOSE 3000
 
