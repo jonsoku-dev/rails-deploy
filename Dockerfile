@@ -5,7 +5,7 @@ FROM ruby:3.1.2-alpine
 RUN apk update && \
     apk add --no-cache \
         build-base \
-        postgresql-dev \
+        mysql-dev \
         tzdata \
         git
 
@@ -24,6 +24,8 @@ COPY . .
 
 # Precompile assets
 RUN bundle exec rake assets:precompile
+
+EXPOSE 3050
 
 # Start the server
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

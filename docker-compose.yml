@@ -1,50 +1,29 @@
-version: "3.7"
+version: '3.8'
+
 services:
-  rails:
-    build:
-      context: .
-      target: production
-    container_name: rails
+  web:
+    build: .
+    image: the2792/rails-test-app:latest
+    container_name: web
+    environment:
+      RAILS_ENV: production
+      DATABASE_URL: mysql2://username:password@db:3306/dbname
     ports:
       - "3050:3050"
-    volumes:
-      - .:/myapp
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
-      - log-data:/myapp/log
-      - /myapp/node_modules
-    env_file:
-      - .env
     depends_on:
       - db
-    environment:
-      DB_HOST: db
-      DB_USERNAME: root
 
   db:
-    image: mysql:8.0.27
-    container_name: db
-    env_file:
-      - .env
-    ports:
-      - "3306:3306"
+    image: mysql:8.0
+    container_name: your-db-container-name
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dbname
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
     volumes:
-      - db:/var/lib/mysql
-
-  web:
-    build:
-      context: containers/nginx
-    volumes:
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
-    ports:
-      - 80:80
-    depends_on:
-      - rails
+      - db-data:/var/lib/mysql
 
 volumes:
-  db:
-    driver: local
-  public-data:
-  tmp-data:
-  log-data:
+  db-data:
