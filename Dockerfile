@@ -3,7 +3,7 @@ FROM ruby:3.1.2
 
 # Install dependencies
 RUN apt-get update -qq && \
-    apt-get install -y nodejs postgresql-client
+    apt-get install -y nodejs mysql-client
 
 # Set working directory
 WORKDIR /app
