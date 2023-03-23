@@ -1,4 +1,4 @@
-FROM ruby:alpine3.13 as Base
+FROM ruby:3.1.2 as Base
 
 ARG UID
 
