@@ -2,7 +2,7 @@ FROM ruby:3.1.2 as Base
 
 ARG UID
 
-RUN adduser -D app -u ${UID:-1000}
+RUN #adduser -D app -u ${UID:-1000}
 RUN apk update
 RUN apk add --no-cache gcc make libc-dev g++ mariadb-dev tzdata nodejs~=14 yarn
 
