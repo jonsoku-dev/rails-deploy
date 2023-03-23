@@ -20,7 +20,7 @@ ENTRYPOINT ["entrypoint.sh"]
 
 # Development
 FROM base as development
-RUN sudo apt-get -o Dpkg::Options::="--force-overwrite" install yarn
+RUN npm -g i yarn
 RUN yarn install
 COPY --chown=app:app . /myapp
 
