@@ -35,13 +35,15 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           port: ${{ secrets.EC2_SSH_PORT }}
           script: |
-            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> db.env
-            echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> db.env
-            echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> db.env
-            echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> db.env
-            echo "RAILS_ENV=production" >> web.env
-            echo "DATABASE_URL=mysql2://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@db/${{ secrets.MYSQL_DATABASE }}" >> web.env
-            sudo docker pull the2792/rails-test-app:latest
-            sudo docker ps
-            sudo docker images
-            sudo docker run -d -p 3000:3000 --env-file db.env --env-file web.env the2792/rails-test-app:latest
+            echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+            echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+            echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
+            echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+            echo "RAILS_ENV=production" >> .env
+            echo "DATABASE_URL=mysql2://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@db/${{ secrets.MYSQL_DATABASE }}" >> .env
+            ls -al
+            docker compose up --build -d
+#            sudo docker pull the2792/rails-test-app:latest
+#            sudo docker ps
+#            sudo docker images
+#            sudo docker run -d -p 3000:3000 --env-file db.env --env-file web.env the2792/rails-test-app:latest

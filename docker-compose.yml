@@ -4,7 +4,7 @@ services:
   db:
     image: mysql:5.7
     env_file:
-      - db.env
+      - .env
   web:
     image: the2792/rails-test-app:latest
     ports:
@@ -12,5 +12,5 @@ services:
     depends_on:
       - db
     env_file:
-      - web.env
+      - .env
 #    command: bash -c "rails db:create RAILS_ENV=production && rails db:migrate RAILS_ENV=production&& rails server -b 0.0.0.0 -e production"
