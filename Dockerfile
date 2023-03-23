@@ -1,10 +1,11 @@
-FROM ruby:3.1.2 as Base
+FROM ruby:alpine3.13 as Base
 
 ARG UID
 
-# Install dependencies
-RUN apt-get update -qq
-RUN apt-get install -y nodejs mariadb-client yarn
+RUN adduser -D app -u ${UID:-1000} && \
+      apk update \
+      && apk add --no-cache gcc make libc-dev g++ mariadb-dev tzdata nodejs~=14 yarn
+
 
 WORKDIR /myapp
 COPY Gemfile .
