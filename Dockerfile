@@ -27,4 +27,4 @@ RUN echo "$RAILS_MASTER_KEY" >> config/master.key
 EXPOSE 3000
 
 # Start the Rails server
-CMD ["rails", "server"]
+CMD ["rails", "server", "-b", "0.0.0.0"]
