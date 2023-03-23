@@ -16,8 +16,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 # Install gems
-RUN bundle config set deployment true && \
-    bundle install --without development test
+RUN bundle install --without development test
 
 # Copy the rest of the application code
 COPY . .
