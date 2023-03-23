@@ -35,6 +35,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           port: ${{ secrets.EC2_SSH_PORT }}
           script: |
+            cd rails-deploy
             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
@@ -42,7 +43,6 @@ jobs:
             echo "RAILS_ENV=production" >> .env
             echo "DATABASE_URL=mysql2://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@db/${{ secrets.MYSQL_DATABASE }}" >> .env
             ls -al
-            cd rails-deploy
             git pull
             sudo docker compose up --build -d
 #            sudo docker pull the2792/rails-test-app:latest
