@@ -3,11 +3,12 @@ FROM ruby:3.1.2-alpine
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get add --no-cache \
-        build-base \
+    apt-get install build-base \
         mariadb-dev \
         tzdata \
         git
+
+
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -\
   && apt-get update -qq && apt-get install -qq --no-install-recommends \
     nodejs \
