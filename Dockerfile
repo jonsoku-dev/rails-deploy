@@ -17,6 +17,9 @@ RUN bundle install
 # Copy the rest of the application code
 COPY . .
 
+# Run database migrations
+RUN rails db:migrate
+
 # Expose port 3000
 EXPOSE 3000
 
