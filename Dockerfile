@@ -14,7 +14,7 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -\
   && apt-get upgrade -qq \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*\
-  && npm install -g yarn@1
+  && npm install -g yarn
 
 # Set the working directory
 WORKDIR /app
