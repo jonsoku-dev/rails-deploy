@@ -7,7 +7,8 @@ RUN apk update && \
         mariadb-dev \
         tzdata \
         git \
-        nodejs
+        nodejs \
+        npm
 
 # Set the working directory
 WORKDIR /app
