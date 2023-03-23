@@ -13,4 +13,4 @@ services:
       - db
     env_file:
       - web.env
-    command: bash -c "rails db:create && rails db:migrate && rails server -b 0.0.0.0"
+    command: bash -c "rails db:create RAILS_ENV=production && rails db:migrate RAILS_ENV=production&& rails server -b 0.0.0.0 -e production"
