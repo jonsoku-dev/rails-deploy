@@ -6,7 +6,7 @@ services:
     env_file:
       - db.env
   web:
-    build: .
+    image: the2792/rails-test-app:latest
     ports:
       - "3000:3000"
     depends_on:
