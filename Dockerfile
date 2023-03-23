@@ -23,10 +23,6 @@ ENV RAILS_ENV=production
 ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 RUN echo "$RAILS_MASTER_KEY" >> config/master.key
 
-# Run database migrations
-RUN rails db:create
-RUN rails db:migrate
-
 # Expose port 3000
 EXPOSE 3000
 
