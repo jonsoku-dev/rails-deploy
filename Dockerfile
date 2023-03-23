@@ -1,4 +1,4 @@
-FROM ruby:alpine3.13 as Base
+FROM ruby:3.1.2 as Base
 
 ARG UID
 
@@ -12,7 +12,7 @@ COPY Gemfile.lock .
 COPY package.json .
 COPY yarn.lock .
 
-RUN bundle install --jobs=4
+RUN bundle install
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
