@@ -2,20 +2,12 @@
 FROM ruby:3.1.2-alpine
 
 # Install dependencies
-RUN apt-get update && \
-    apt-get install build-base \
+RUN apk update && \
+    apk add build-base \
         mariadb-dev \
         tzdata \
-        git
-
-
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -\
-  && apt-get update -qq && apt-get install -qq --no-install-recommends \
-    nodejs \
-  && apt-get upgrade -qq \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*\
-  && npm install -g yarn
+        git \
+        nodejs
 
 # Set the working directory
 WORKDIR /app
@@ -25,6 +17,8 @@ COPY Gemfile Gemfile.lock ./
 
 # Install gems
 RUN gem install rails -v 6.1.7
+RUN gem install bundler
+RUN npm install -g yarn
 RUN bundle install --without development test
 
 # Copy the rest of the application code
