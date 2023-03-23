@@ -23,7 +23,10 @@ jobs:
           context: .
           push: true
           tags: the2792/rails-test-app:latest
-          build-args: RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
+          build-args: | 
+            RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
+            RAILS_SECRET=${{ secrets.RAILS_SECRET }}
+
       - name: SSH into EC2 instance
         uses: appleboy/ssh-action@master
         with:
