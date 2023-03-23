@@ -17,6 +17,12 @@ RUN bundle install
 # Copy the rest of the application code
 COPY . .
 
+# Set environment variables
+ARG RAILS_MASTER_KEY
+ENV RAILS_ENV=production
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+RUN echo "$RAILS_MASTER_KEY" >> config/master.key
+
 # Run database migrations
 RUN rails db:migrate
 
