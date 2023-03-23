@@ -4,7 +4,10 @@ ARG UID
 
 # Install dependencies
 RUN apt-get update -qq && \
-    apt-get install -y nodejs mariadb-client yarn # https://qiita.com/aseanchild1400/items/d3580366054fee3d2703
+    apt-get install -y nodejs mariadb-client curl# https://qiita.com/aseanchild1400/items/d3580366054fee3d2703 \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && sudo apt-get install yarn
 
 
 WORKDIR /myapp

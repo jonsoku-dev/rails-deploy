@@ -5,6 +5,8 @@ services:
       context: .
       target: production
     container_name: rails
+    ports:
+      - "3050:3050"
     volumes:
       - .:/myapp
       - public-data:/myapp/public
