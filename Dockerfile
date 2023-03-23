@@ -23,7 +23,7 @@ RUN bundle install --without development test
 COPY . .
 
 # Precompile assets
-RUN bundle exec rake assets:precompile
+RUN RAILS_ENV=production bin/rails assets:precompile
 
 EXPOSE 3050
 
