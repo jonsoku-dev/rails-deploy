@@ -2,9 +2,10 @@ FROM ruby:3.1.2 as Base
 
 ARG UID
 
-RUN #adduser -D app -u ${UID:-1000}
-RUN apt-get update
-RUN apt-get install -y nodejs mariadb-client yarn tzdata mariadb-dev libc-dev g++ gcc make # https://qiita.com/aseanchild1400/items/d3580366054fee3d2703
+# Install dependencies
+RUN apt-get update -qq && \
+    apt-get install -y nodejs mariadb-client # https://qiita.com/aseanchild1400/items/d3580366054fee3d2703
+
 
 WORKDIR /myapp
 COPY Gemfile .
