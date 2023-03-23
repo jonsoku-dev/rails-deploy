@@ -27,6 +27,16 @@ jobs:
             RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
             RAILS_SECRET=${{ secrets.RAILS_SECRET }}
 
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: ${{ secrets.EC2_SSH_PORT }}
+          source: "docker-compose.yml"
+          target: "/"
+
       - name: SSH into EC2 instance
         uses: appleboy/ssh-action@master
         with:
