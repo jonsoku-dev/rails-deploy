@@ -1,54 +1,29 @@
-FROM ruby:3.1.2 as Base
+# Use an official Ruby runtime as a parent image
+FROM ruby:3.1.2-alpine
 
-ARG UID
+# Install dependencies
+RUN apk update && \
+    apk add --no-cache \
+        build-base \
+        postgresql-dev \
+        tzdata \
+        git
 
-RUN adduser -D app -u ${UID:-1000} && \
-      apk update \
-      && apk add --no-cache gcc make libc-dev g++ mariadb-dev tzdata nodejs~=14 yarn
+# Set the working directory
+WORKDIR /app
 
+# Copy the Gemfile and Gemfile.lock
+COPY Gemfile Gemfile.lock ./
 
-WORKDIR /myapp
-COPY Gemfile .
-COPY Gemfile.lock .
-COPY package.json .
-COPY yarn.lock .
+# Install gems
+RUN bundle config set deployment true && \
+    bundle install --without development test
 
-RUN bundle install
+# Copy the rest of the application code
+COPY . .
 
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+# Precompile assets
+RUN bundle exec rake assets:precompile
 
-# Development
-FROM base as development
-RUN npm -g i yarn
-RUN yarn install
-COPY --chown=app:app . /myapp
-
-USER app
-RUN mkdir -p tmp/sockets tmp/pids
-
-EXPOSE 3050
-CMD ["sh", "-c", "./bin/webpack && bundle exec rails s -p 3050 -b '0.0.0.0'"]
-
-# build
-FROM base as build
-
-RUN mkdir -p tmp/sockets tmp/pids
-COPY --chown=app:app . /myapp
-RUN yarn install
-
-# compile
-FROM build as compile
-
-ENV NODE_ENV=production
-RUN ./bin/webpack
-
-# production
-FROM compile as production
-
-ENV RAILS_ENV=production
-VOLUME /myapp/public
-VOLUME /myapp/tmp
-
-CMD /bin/sh -c "bundle exec puma -C config/puma.rb"
+# Start the server
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
