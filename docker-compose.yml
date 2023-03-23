@@ -1,16 +1,48 @@
-version: '3'
-
+version: "3.7"
 services:
-  db:
-    image: mysql:5.7
+  rails:
+    build:
+      context: .
+      target: production
+    container_name: rails
+    volumes:
+      - .:/myapp
+      - public-data:/myapp/public
+      - tmp-data:/myapp/tmp
+      - log-data:/myapp/log
+      - /myapp/node_modules
     env_file:
       - .env
-  web:
-    image: the2792/rails-test-app:latest
-    ports:
-      - "3000:3000"
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_USERNAME: root
+
+  db:
+    image: mysql:8.0.27
+    container_name: db
     env_file:
       - .env
-    command: bash -c "rails assets:precompile　RAILS_ENV=production　&& rails server -b 0.0.0.0 -e production"
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+
+  web:
+    build:
+      context: containers/nginx
+    volumes:
+      - public-data:/myapp/public
+      - tmp-data:/myapp/tmp
+    ports:
+      - 80:80
+    depends_on:
+      - rails
+
+volumes:
+  db:
+    driver: local
+  public-data:
+  tmp-data:
+  log-data:

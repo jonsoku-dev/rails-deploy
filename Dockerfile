@@ -1,32 +1,53 @@
-# Base image
-FROM ruby:3.1.2
+FROM ruby:alpine3.13 as Base
 
-# Install dependencies
-RUN apt-get update -qq && \
-    apt-get install -y nodejs mariadb-client # https://qiita.com/aseanchild1400/items/d3580366054fee3d2703
+ARG UID
 
-# Set working directory
-WORKDIR /app
+RUN adduser -D app -u ${UID:-1000} && \
+      apk update \
+      && apk add --no-cache gcc make libc-dev g++ mariadb-dev tzdata nodejs~=14 yarn
 
-# Copy Gemfile and Gemfile.lock
-COPY Gemfile Gemfile.lock ./
+WORKDIR /myapp
+COPY Gemfile .
+COPY Gemfile.lock .
+COPY package.json .
+COPY yarn.lock .
 
-# Install gems
-RUN bundle install
+RUN bundle install --jobs=4
 
-# Copy the rest of the application code
-COPY . .
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 
-# Set environment variables
-ARG RAILS_MASTER_KEY
-ARG RAILS_SECRET
-ENV RAILS_ENV=production
-ENV SECRET_KEY_BASE="echo 'export rails secret'"
-ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
-RUN echo "$RAILS_MASTER_KEY" >> config/master.key
-RUN export SECRET_KEY_BASE=$RAILS_SECRET
-# Expose port 3000
+# Development
+FROM base as development
+
+RUN yarn install
+COPY --chown=app:app . /myapp
+
+USER app
+RUN mkdir -p tmp/sockets tmp/pids
+
 EXPOSE 3000
+CMD ["sh", "-c", "./bin/webpack && bundle exec rails s -p 3000 -b '0.0.0.0'"]
 
-# Start the Rails server
-CMD ["rails", "server", "-b", "0.0.0.0", "-e", "production"]
+# build
+FROM base as build
+
+RUN mkdir -p tmp/sockets tmp/pids
+COPY --chown=app:app . /myapp
+RUN yarn install
+
+# compile
+FROM build as compile
+
+ENV NODE_ENV=production
+RUN ./bin/webpack
+
+# production
+FROM compile as production
+
+ENV RAILS_ENV=production
+VOLUME /myapp/public
+VOLUME /myapp/tmp
+
+CMD /bin/sh -c "bundle exec puma -C config/puma.rb"
