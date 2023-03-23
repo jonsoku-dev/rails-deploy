@@ -5,7 +5,7 @@ FROM ruby:3.1.2-alpine
 RUN apk update && \
     apk add --no-cache \
         build-base \
-        mysql-dev \
+        mariadb-dev \
         tzdata \
         git
 
@@ -16,6 +16,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 
 # Install gems
+RUN gem install rails -v 6.1.7
 RUN bundle install --without development test
 
 # Copy the rest of the application code
