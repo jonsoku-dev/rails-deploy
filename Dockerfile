@@ -27,8 +27,8 @@ COPY --chown=app:app . /myapp
 USER app
 RUN mkdir -p tmp/sockets tmp/pids
 
-EXPOSE 3000
-CMD ["sh", "-c", "./bin/webpack && bundle exec rails s -p 3000 -b '0.0.0.0'"]
+EXPOSE 3050
+CMD ["sh", "-c", "./bin/webpack && bundle exec rails s -p 3050 -b '0.0.0.0'"]
 
 # build
 FROM base as build
