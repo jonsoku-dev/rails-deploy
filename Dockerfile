@@ -2,13 +2,17 @@
 FROM ruby:3.1.2-alpine
 
 # Install dependencies
-RUN apk update && \
-    apk add build-base \
+RUN apk update
+RUN apk add build-base \
         mariadb-dev \
         tzdata \
-        git \
-        nodejs \
-        npm
+        git
+RUN apk add bash curl nodejs
+RUN touch ~/.bashrc \
+    && curl -o- -L https://yarnpkg.com/install.sh | bash \
+    && ln -s "$HOME/.yarn/bin/yarn" /usr/local/bin/yarn
+
+RUN yarn --version
 
 # Set the working directory
 WORKDIR /app
@@ -19,7 +23,6 @@ COPY Gemfile Gemfile.lock ./
 # Install gems
 RUN gem install rails -v 6.1.7
 RUN gem install bundler
-RUN npm install -g yarn
 RUN bundle install --without development test
 
 # Copy the rest of the application code
