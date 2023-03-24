@@ -1,14 +1,6 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
-    env_file:
-      - .env
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec puma -C config/puma.rb"
-    depends_on:
-      - db
-
   db:
     image: mysql:8.0
     restart: always
@@ -16,7 +8,13 @@ services:
       - .env
     volumes:
       - db-data:/var/lib/mysql
-
+  app:
+    build: .
+    env_file:
+      - .env
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec puma -C config/puma.rb"
+    depends_on:
+      - db
   nginx:
     build:
       context: .
