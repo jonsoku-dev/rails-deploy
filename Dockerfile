@@ -24,7 +24,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /myapp
 
 # Copy the Gemfile and Gemfile.lock
 COPY Gemfile Gemfile.lock ./
