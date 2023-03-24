@@ -36,7 +36,7 @@ RUN gem install bundler && \
 COPY . .
 
 # Precompile assets
-RUN bundle exec rake assets:precompile RAILS_ENV=production
+RUN bundle exec rake assets:precompile --trace RAILS_ENV=production
 
 # Expose port and start the server
 EXPOSE 3050
