@@ -42,8 +42,8 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
 # DB
-RUN bundle exec rake db:create
-RUN bundle exec rake db:migrate
+#RUN bundle exec rake db:create
+#RUN bundle exec rake db:migrate
 #RUN bundle exec rake db:seed
 
 # Precompile assets
