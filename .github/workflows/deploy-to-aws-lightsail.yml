@@ -36,6 +36,8 @@ jobs:
           port: ${{ secrets.EC2_SSH_PORT }}
           script: |
             cd rails-deploy
+            echo "${{ secrets.RAILS_MASTER_KEY }}" >> config/master.key
+            echo "SECRET_KEY_BASE=${{ secrets.RAILS_SECRET }}" >> .env
             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
