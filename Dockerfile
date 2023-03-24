@@ -41,4 +41,4 @@ RUN bundle exec rake assets:precompile --trace RAILS_ENV=production
 
 # Expose port and start the server
 EXPOSE 3050
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3050"]
