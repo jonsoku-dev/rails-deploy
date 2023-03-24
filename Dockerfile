@@ -51,5 +51,5 @@ RUN bundle exec rake assets:precompile RAILS_ENV=production
 #RUN bundle exec rake db:seed RAILS_ENV=production
 
 # Expose port and start the server
-EXPOSE 3050
+EXPOSE 3000
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
