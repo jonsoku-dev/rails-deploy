@@ -3,7 +3,7 @@ FROM ruby:3.1.2
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends mariadb-dev build-base tzdata git nodejs curl && \
+    apt-get install -y libmariadbclient-dev tzdata git nodejs curl && \
     rm -rf /var/lib/apt/lists/*
 
 # Install yarn
