@@ -1,14 +1,32 @@
-# Use an official Ruby runtime as a parent image
-FROM ruby:3.1.2
+# Use an official Ubuntu 18.04 LTS image as a parent image
+FROM ubuntu:18.04
 
-# Install dependencies
-RUN apt-get update && \
-    apt-get install -y libmariadbclient-dev tzdata git nodejs curl && \
-    rm -rf /var/lib/apt/lists/*
+# Update packages and install necessary dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    build-essential \
+    libssl-dev \
+    libreadline-dev \
+    zlib1g-dev \
+    libsqlite3-dev \
+    sqlite3 \
+    libmariadb-dev \
+    mariadb-client \
+    tzdata \
+    nodejs
+
+# Install rbenv and set environment variables
+ENV PATH="/root/.rbenv/bin:/root/.rbenv/shims:$PATH"
+RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/main/bin/rbenv-installer | bash && \
+    echo 'eval "$(rbenv init -)"' >> /root/.bashrc && \
+    rbenv install 3.1.2 && \
+    rbenv global 3.1.2
 
 # Install yarn
-RUN curl -o- -L https://yarnpkg.com/install.sh | bash && \
-    ln -s "$HOME/.yarn/bin/yarn" /usr/local/bin/yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install -y yarn
 
 # Set the working directory
 WORKDIR /app
@@ -24,23 +42,9 @@ RUN gem install bundler && \
 # Copy the rest of the application code
 COPY . .
 
-# Set environment variables
-ARG RAILS_MASTER_KEY
-ARG RAILS_SECRET
-ENV RAILS_ENV=production \
-    SECRET_KEY_BASE="$(echo 'export rails secret')" \
-    RAILS_MASTER_KEY=$RAILS_MASTER_KEY
-
-# Add RAILS_MASTER_KEY to config/master.key
-RUN echo "$RAILS_MASTER_KEY" >> config/master.key
-
-# Set SECRET_KEY_BASE
-RUN export SECRET_KEY_BASE=$RAILS_SECRET
-
 # Precompile assets
-RUN rails assets:precompile
+RUN bundle exec rails assets:precompile
 
+# Expose port and start the server
 EXPOSE 3050
-
-# Start the server
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
