@@ -27,7 +27,7 @@
 # # Specifies the number of `workers` to boot in clustered mode.
 # # Workers are forked web server processes. If using threads and workers together
 # # the concurrency of the application would be max `threads` * `workers`.
-# # Workers do not work on JRuby or Windows (both of which do not support
+# # Workers do not work on JRuby or Windows (both of which do not support z
 # # processes).
 # #
 # # workers ENV.fetch("WEB_CONCURRENCY") { 2 }

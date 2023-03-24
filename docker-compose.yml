@@ -26,7 +26,8 @@ services:
       - /myapp/node_modules
   web:
     build:
-      context: containers/nginx
+      context: ./nginx
+      dockerfile: Dockerfile
     volumes:
       - public-data:/myapp/public
       - tmp-data:/myapp/tmp
