@@ -36,6 +36,11 @@ RUN gem install bundler && \
 # Copy the rest of the application code
 COPY . .
 
+# Add a script to be executed every time the container starts.
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
 # Precompile assets
 RUN bundle exec rake assets:precompile --trace RAILS_ENV=production
 
