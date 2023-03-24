@@ -1,13 +1,11 @@
 # Use an official Ruby runtime as a parent image
 FROM ruby:3.1.2
 
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		mariadb-dev \ build-base \ tzdata \ git \ nodejs \ curl
+	&& rm -rf /var/lib/apt/lists/*
 # Install dependencies
-RUN apk update
-RUN apk add build-base \
-        mariadb-dev \
-        tzdata \
-        git
-RUN apk add bash curl nodejs
 RUN touch ~/.bashrc \
     && curl -o- -L https://yarnpkg.com/install.sh | bash \
     && ln -s "$HOME/.yarn/bin/yarn" /usr/local/bin/yarn
