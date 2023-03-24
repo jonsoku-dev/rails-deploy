@@ -3,25 +3,18 @@ version: '3.8'
 services:
   web:
     build: .
-    image: the2792/rails-test-app:latest
-    container_name: web
-    environment:
-      RAILS_ENV: production
-      DATABASE_URL: mysql2://username:password@db:3306/dbname
+    env_file:
+      - .env
     ports:
-      - "3050:3050"
+      - "3000:3000"
     depends_on:
       - db
 
   db:
     image: mysql:8.0
-    container_name: your-db-container-name
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: dbname
-      MYSQL_USER: username
-      MYSQL_PASSWORD: password
+    env_file:
+      - .env
     volumes:
       - db-data:/var/lib/mysql
 
