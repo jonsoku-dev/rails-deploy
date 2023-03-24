@@ -37,6 +37,7 @@ jobs:
           script: |
             cd rails-deploy
             rm -rf .env
+            rm -rf config/master.key
             echo "${{ secrets.RAILS_MASTER_KEY }}" >> config/master.key
             echo "SECRET_KEY_BASE=${{ secrets.RAILS_SECRET }}" >> .env
             echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
