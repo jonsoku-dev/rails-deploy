@@ -8,39 +8,24 @@ services:
     env_file:
       - .env
     volumes:
-      - db:/var/lib/mysql
-  rails:
-    container_name: rails
+      - db-data:/var/lib/mysql
+  web:
+    container_name: web
     build: .
     env_file:
       - .env
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
-#    command: bash -c "rm -f tmp/pids/server.pid && bundle exec puma -C config/puma.rb"
     depends_on:
       - db
-    volumes:
-      - .:/myapp
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
-      - log-data:/myapp/log
-      - /myapp/node_modules
-  web:
-    container_name: web
+  nginx:
+    container_name: nginx
+    restart: always
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    volumes:
-      - public-data:/myapp/public
-      - tmp-data:/myapp/tmp
     ports:
       - "3050:80"
     depends_on:
-      - rails
+      - web
 volumes:
-  db:
-    driver: local
-  bundle:
-    driver: local
-  public-data:
-  tmp-data:
-  log-data:
+  db-data:
