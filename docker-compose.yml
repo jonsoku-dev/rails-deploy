@@ -23,7 +23,7 @@ services:
     ports:
       - "3050:80"
     depends_on:
-      - app
+      - web
 
 volumes:
   db-data:
