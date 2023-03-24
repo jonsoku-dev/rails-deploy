@@ -17,17 +17,15 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     depends_on:
       - db
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
-      - "3050:3000"
-#  nginx:
-#    container_name: nginx
-#    restart: always
-#    build:
-#      context: ./nginx
-#      dockerfile: Dockerfile
-#    ports:
-#      - "3050:80"
-#    depends_on:
-#      - web
+      - "3050:80"
+    depends_on:
+      - web
 volumes:
   db-data:
