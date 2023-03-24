@@ -34,7 +34,7 @@ services:
     ports:
       - "3050:80"
     depends_on:
-      - web
+      - rails
 volumes:
   db:
     driver: local
