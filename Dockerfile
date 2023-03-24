@@ -1,7 +1,7 @@
-# Use an official Ubuntu 18.04 LTS image as a parent image
-FROM ubuntu:18.04
+# Use an official Ruby runtime as a parent image
+FROM ruby:3.1.2
 
-# Update packages and install necessary dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
@@ -15,13 +15,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-client \
     tzdata \
     nodejs
-
-# Install rbenv and set environment variables
-ENV PATH="/root/.rbenv/bin:/root/.rbenv/shims:$PATH"
-RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/main/bin/rbenv-installer | bash && \
-    echo 'eval "$(rbenv init -)"' >> /root/.bashrc && \
-    rbenv install 3.1.2 && \
-    rbenv global 3.1.2
 
 # Install yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
