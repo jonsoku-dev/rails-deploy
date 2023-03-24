@@ -10,7 +10,7 @@ services:
     volumes:
       - db:/var/lib/mysql
   rails:
-    container_name: web
+    container_name: rails
     build: .
     env_file:
       - .env
@@ -25,6 +25,7 @@ services:
       - log-data:/myapp/log
       - /myapp/node_modules
   web:
+    container_name: web
     build:
       context: ./nginx
       dockerfile: Dockerfile
