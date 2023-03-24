@@ -24,8 +24,17 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
 # Set the working directory
 WORKDIR /app
 
+ARG RAILS_MASTER_KEY
+ARG RAILS_SECRET
+ENV RAILS_ENV=production
+ENV SECRET_KEY_BASE="echo 'export rails secret'"
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+RUN echo "$RAILS_MASTER_KEY" >> config/master.key
+RUN export SECRET_KEY_BASE=$RAILS_SECRET
+
 # Copy the Gemfile and Gemfile.lock
 COPY Gemfile Gemfile.lock ./
+
 
 # Install gems
 RUN gem install bundler && \
