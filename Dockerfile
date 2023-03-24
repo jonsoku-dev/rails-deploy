@@ -1,5 +1,5 @@
 # Use an official Ruby runtime as a parent image
-FROM ruby:3.1.2-alpine
+FROM ruby:3.1.2
 
 # Install dependencies
 RUN apk update
