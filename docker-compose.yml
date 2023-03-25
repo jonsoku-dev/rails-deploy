@@ -77,6 +77,9 @@ services:
       - web
     networks:
       - app-network
+    environment:
+      UPSTREAM_SERVER: web
+      UPSTREAM_PORT: 3000
 
 networks:
   app-network:
