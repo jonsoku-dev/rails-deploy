@@ -31,7 +31,7 @@
 #  db-data:
 
 
-version: '3.3'
+version: '3'
 
 services:
   db:
@@ -57,9 +57,7 @@ services:
     networks:
       - app-network
   nginx:
-    build:
-     context: .
-     dockerfile: ./docker/nginx/Dockerfile
+    image: nginx:latest
     container_name: nginx
     ports:
       - "3050:80"
