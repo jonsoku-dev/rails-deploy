@@ -47,7 +47,7 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
 # Precompile assets
-RUN bundle exec rake assets:precompile RAILS_ENV=production
+# RUN bundle exec rake assets:precompile RAILS_ENV=production
 
 #RUN bundle exec rake db:create RAILS_ENV=production
 #RUN bundle exec rake db:migrate RAILS_ENV=production
