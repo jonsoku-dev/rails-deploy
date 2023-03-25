@@ -45,7 +45,6 @@ jobs:
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
             echo "RAILS_ENV=production" >> .env
-#            echo "DATABASE_URL=mysql2://${{ secrets.MYSQL_USER }}:${{ secrets.MYSQL_PASSWORD }}@db/${{ secrets.MYSQL_DATABASE }}" >> .env
             ls -al
             git pull
             sudo docker-compose build
