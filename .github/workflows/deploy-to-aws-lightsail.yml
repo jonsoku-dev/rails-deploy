@@ -44,7 +44,7 @@ jobs:
             echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
             echo "MYSQL_USER=${{ secrets.MYSQL_USER }}" >> .env
             echo "MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
-            echo "RAILS_SERVE_STATIC_FILES=true" >> .env
+            echo "RAILS_SERVE_STATIC_FILES=false" >> .env
             echo "RAILS_ENV=production" >> .env
             ls -al
             git pull
