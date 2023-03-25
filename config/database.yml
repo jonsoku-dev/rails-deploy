@@ -22,7 +22,7 @@ test:
 
 production:
   adapter: mysql2
-  host: 127.0.0.1
+  host: db
   port: 3306
   database: <%= ENV['MYSQL_DATABASE'] %>
   username: <%= ENV['MYSQL_USER'] %>
