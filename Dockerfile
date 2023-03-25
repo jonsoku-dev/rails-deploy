@@ -48,6 +48,8 @@ ENTRYPOINT ["entrypoint.sh"]
 
 # Precompile assets
 # RUN bundle exec rake assets:precompile RAILS_ENV=production
+# copy over static assets
+COPY public public/
 
 #RUN bundle exec rake db:create RAILS_ENV=production
 #RUN bundle exec rake db:migrate RAILS_ENV=production
