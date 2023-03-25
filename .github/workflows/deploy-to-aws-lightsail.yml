@@ -53,9 +53,9 @@ jobs:
 
 #            Update code and run Docker Compose
             git pull
-            docker-compose build
-            docker-compose run web bundle exec rake assets:precompile RAILS_ENV=production
-            docker-compose up -d
+            docker compose build
+            docker compose run web bundle exec rake assets:precompile RAILS_ENV=production
+            docker compose up -d
 #            sudo docker pull the2792/rails-test-app:latest
 #            sudo docker ps
 #            sudo docker images
