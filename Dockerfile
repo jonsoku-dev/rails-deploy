@@ -23,8 +23,11 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     apt-get update && apt-get install -y yarn \
     && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
-WORKDIR /myapp
+# establish where Nginx should look for files
+ENV RAILS_ROOT /myapp
+
+# Set our working directory inside the image
+WORKDIR $RAILS_ROOT
 
 # Copy the Gemfile and Gemfile.lock
 COPY Gemfile Gemfile.lock ./
