@@ -68,7 +68,7 @@ services:
     ports:
       - "3050:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - web
     networks:
