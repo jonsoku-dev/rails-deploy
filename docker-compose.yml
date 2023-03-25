@@ -35,15 +35,13 @@ version: '3'
 
 services:
   db:
-    image: mysql
+    image: mysql:8.0
     container_name: db
     volumes:
       - db_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: myapp_production
-      MYSQL_USER: myapp
-      MYSQL_PASSWORD: password
+    restart: always
+    env_file:
+      - .env
     networks:
       - app-network
   web:
