@@ -48,8 +48,8 @@ jobs:
             echo "RAILS_ENV=production" >> .env
             ls -al
             git pull
-            sudo bundle exec rake assets:precompile RAILS_ENV=production 
             sudo docker-compose build
+            sudo docker-compose run web bundle exec rake assets:precompile RAILS_ENV=production
             sudo docker-compose up -d
 #            sudo docker pull the2792/rails-test-app:latest
 #            sudo docker ps
