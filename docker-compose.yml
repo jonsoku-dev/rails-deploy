@@ -56,11 +56,14 @@ services:
       - db
     networks:
       - app-network
+    volumes:
+      - public-files:/myapp/public
   nginx:
     image: nginx:latest
     container_name: nginx
     ports:
       - "3050:80"
+    restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./public:/usr/share/nginx/public:cached
@@ -76,3 +79,4 @@ networks:
 
 volumes:
   db_data:
+  public-files:
