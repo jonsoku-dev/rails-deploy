@@ -26,4 +26,4 @@ production:
   port: 3306
   database: <%= ENV['MYSQL_DATABASE'] %>
   username: <%= ENV['MYSQL_USER'] %>
-  password: <%= ENV['MYSQL_ROOT_PASSWORD'] %>
+  password: <%= ENV['MYSQL_PASSWORD'] %>
