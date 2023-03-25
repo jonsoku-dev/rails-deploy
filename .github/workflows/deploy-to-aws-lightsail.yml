@@ -36,8 +36,9 @@ jobs:
           port: ${{ secrets.EC2_SSH_PORT }}
           script: |
             cd rails-deploy
-
-#            Create .env file
+            rm -rf .env
+            rm -rf config/master.key
+            echo "${{ secrets.RAILS_MASTER_KEY }}" >> config/master.key
             cat > .env <<EOF
             SECRET_KEY_BASE=${{ secrets.RAILS_SECRET }}
             MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
@@ -47,15 +48,11 @@ jobs:
             RAILS_SERVE_STATIC_FILES=false
             RAILS_ENV=production
             EOF
-
-#            Create master.key file
-            echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
-
-#            Update code and run Docker Compose
+            ls -al
             git pull
-            docker compose build
-            docker compose run web bundle exec rake assets:precompile RAILS_ENV=production
-            docker compose up -d
+            sudo docker compose build
+            sudo docker compose run web bundle exec rake assets:precompile RAILS_ENV=production
+            sudo docker compose up -d
 #            sudo docker pull the2792/rails-test-app:latest
 #            sudo docker ps
 #            sudo docker images
