@@ -56,8 +56,6 @@ services:
       - db
     networks:
       - app-network
-    volumes:
-      - public-files:/myapp/public
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -79,4 +77,3 @@ networks:
 
 volumes:
   db_data:
-  public-files:
