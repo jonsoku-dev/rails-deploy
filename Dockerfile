@@ -51,4 +51,4 @@ ENTRYPOINT ["entrypoint.sh && startup.sh"]
 # Expose port and start the server
 EXPOSE 3000
 #CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
-#CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
