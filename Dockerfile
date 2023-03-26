@@ -44,18 +44,12 @@ COPY . .
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
+COPY startup.sh /usr/bin/
+RUN chmod +x startup.sh
 ENTRYPOINT ["entrypoint.sh"]
-
-# Precompile assets
-# RUN bundle exec rake assets:precompile RAILS_ENV=production
-# copy over static assets
-#COPY public public/
-
-#RUN bundle exec rake db:create RAILS_ENV=production
-#RUN bundle exec rake db:migrate RAILS_ENV=production
-#RUN bundle exec rake db:seed RAILS_ENV=production
+ENTRYPOINT ["startup.sh"]
 
 # Expose port and start the server
 EXPOSE 3000
 #CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
-CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+#CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
