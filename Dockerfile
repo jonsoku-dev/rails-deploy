@@ -45,7 +45,7 @@ COPY . .
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 COPY startup.sh /usr/bin/
-RUN chmod +x startup.sh
+RUN chmod +x /usr/bin/startup.sh
 ENTRYPOINT ["entrypoint.sh"]
 ENTRYPOINT ["startup.sh"]
 
