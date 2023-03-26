@@ -69,6 +69,7 @@ services:
     restart: always
     volumes:
       - public:/myapp/public
+      - ./log/nginx:/myapp/log/nginx # access_log & error_log path in nginx.conf
 #    volumes:
 #      - ./nginx.conf:/etc/nginx/nginx.conf
 #      - ./public:/usr/share/nginx/public:cached
